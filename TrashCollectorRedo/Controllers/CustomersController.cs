@@ -24,8 +24,17 @@ namespace TrashCollectorRedo.Controllers
         public IActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var customer = _context.Customer.Where(s => s.IdentityUserId == userId).ToList();
-            return View(customer);
+            var customer = _context.Customer.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+            if (_context.Customer.Where(s => s.IdentityUserId == userId).Any())
+            {
+                return View(customer);
+            }
+            else
+            {
+                return RedirectToAction("Create");
+            }
+
         }
 
         // GET: Customers/Details/5
@@ -59,10 +68,11 @@ namespace TrashCollectorRedo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,Name,IdentityUserId")] Customer customer)
+        public async Task<IActionResult> Create([Bind("CustomerId,Name,PickupDay,OneTimePickup,Balance,SuspendStart,SuspendEnd,IdentityUserId")] Customer customer)
         {
             if (ModelState.IsValid)
             {
+                customer.IdentityUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -74,17 +84,16 @@ namespace TrashCollectorRedo.Controllers
         // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
             {
                 return NotFound();
             }
-
-            var customer = await _context.Customer.FindAsync(id);
+            var customer = _context.Customer.Where(c => c.IdentityUserId == userId).FirstOrDefault();
             if (customer == null)
             {
                 return NotFound();
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
             return View(customer);
         }
 
@@ -93,7 +102,7 @@ namespace TrashCollectorRedo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,Name,IdentityUserId")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,Name,PickupDay,OneTimePickup,Balance,SuspendStart,SuspendEnd,IdentityUserId")] Customer customer)
         {
             if (id != customer.CustomerId)
             {
@@ -104,6 +113,8 @@ namespace TrashCollectorRedo.Controllers
             {
                 try
                 {
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    customer.IdentityUserId = userId;
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
                 }
