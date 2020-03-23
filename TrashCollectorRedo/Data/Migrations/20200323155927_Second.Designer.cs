@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrashCollectorRedo.Data;
 
 namespace TrashCollectorRedo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200323155927_Second")]
+    partial class Second
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace TrashCollectorRedo.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "efea8cef-fd02-4d3c-8436-c23f412cd070",
-                            ConcurrencyStamp = "3626afce-1bc9-4ff1-9e0e-772199a832a5",
+                            Id = "f90be1fb-6387-40c7-8629-8ca6542bbfca",
+                            ConcurrencyStamp = "250b6725-efa3-4647-9c82-75c32b568cc1",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "37a868bf-23ba-404a-a4b2-98ead9c6de6a",
-                            ConcurrencyStamp = "29f54f37-6e14-40e6-987a-22f86fd58bbd",
+                            Id = "d6603be4-3732-4988-a97e-e0e3d4fe3688",
+                            ConcurrencyStamp = "1429e8ed-2c93-4c49-bdb6-4f23348e8cc8",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -243,9 +245,6 @@ namespace TrashCollectorRedo.Data.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("OneTimePickup")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("CustomerId");
 

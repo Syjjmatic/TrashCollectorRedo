@@ -34,7 +34,7 @@ namespace TrashCollectorRedo.Data
             }
             );
         }
-        public DbSet<TrashCollectorRedo.Models.Customer> Customer { get; set; }
-        public DbSet<TrashCollectorRedo.Models.Employee> Employee { get; set; }
+        public DbSet<Customer> Customer { get; set; }
+        public DbSet<Employee> Employee { get; set; }
     }
 }

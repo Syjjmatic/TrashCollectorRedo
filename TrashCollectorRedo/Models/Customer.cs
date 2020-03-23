@@ -11,6 +11,7 @@ namespace TrashCollectorRedo.Models
     {
         public int CustomerId { get; set; }
         public string Name { get; set; }
+        public DateTime OneTimePickup { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
