@@ -1,0 +1,2 @@
+# TrashCollectorRedo
+ASP.NET practice
